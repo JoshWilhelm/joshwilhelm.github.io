@@ -2,72 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1a1a2e">
     <title>Pay Josh Wilhelm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-base: #1a1a2e;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --text-faint: rgba(255, 255, 255, 0.5);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
         }
 
         html {
-            height: 100%;
+            background-color: var(--bg-base);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            z-index: -1;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text);
+            background: transparent;
+            display: grid;
+            place-items: center;
+            padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)) 20px;
         }
 
         .card-wrapper {
             width: 100%;
             max-width: 420px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 40px);
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 48px;
             width: 100%;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .avatar-container {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 24px;
+            padding: 40px 32px;
+            text-align: center;
         }
 
         .avatar {
             width: 140px;
             height: 140px;
+            margin-bottom: 24px;
             border-radius: 50%;
             border: 4px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
@@ -80,36 +80,42 @@
         }
 
         h1 {
-            color: #ffffff;
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 8px;
             letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 32px;
+            color: var(--text-muted);
             font-size: 16px;
-            margin-bottom: 40px;
         }
 
         .payment-methods {
-            display: flex;
-            flex-direction: column;
+            display: grid;
             gap: 12px;
         }
 
         .payment-link {
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
             display: flex;
             align-items: center;
             gap: 16px;
             padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
             text-decoration: none;
-            color: #ffffff;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button.payment-link {
+            font: inherit;
         }
 
         .payment-link:hover {
@@ -122,81 +128,118 @@
             transform: translateY(0);
         }
 
+        .payment-link:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.8);
+            outline-offset: 2px;
+        }
+
         .payment-icon {
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
             font-size: 20px;
             flex-shrink: 0;
         }
 
-        .venmo .payment-icon { background: linear-gradient(135deg, #008CFF 0%, #008CFF 100%); }
-        .cashapp .payment-icon { background: linear-gradient(135deg, #00D632 0%, #00A82D 100%); }
-        .paypal .payment-icon { background: linear-gradient(135deg, #0070BA 0%, #003087 100%); }
-        .applepay .payment-icon { background: linear-gradient(135deg, #000000 0%, #333333 100%); }
-        .zelle .payment-icon { background: linear-gradient(135deg, #6B1CD0 0%, #5015A8 100%); }
+        .venmo .payment-icon {
+            background: #008cff;
+        }
+
+        .cashapp .payment-icon {
+            background: linear-gradient(135deg, #00d632 0%, #00a82d 100%);
+        }
+
+        .paypal .payment-icon {
+            background: linear-gradient(135deg, #0070ba 0%, #003087 100%);
+        }
+
+        .zelle .payment-icon {
+            background: linear-gradient(135deg, #6b1cd0 0%, #5015a8 100%);
+        }
 
         .payment-info {
             flex: 1;
-            text-align: left;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .payment-name {
-            font-weight: 600;
+            display: block;
             font-size: 15px;
+            font-weight: 600;
             margin-bottom: 2px;
         }
 
         .payment-handle {
+            display: block;
+            max-width: 100%;
+            color: var(--text-faint);
+            font-family: "SF Mono", "Consolas", monospace;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-            font-family: 'SF Mono', 'Consolas', monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .arrow {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 18px;
-            transition: transform 0.2s ease;
+        .payment-action {
+            flex-shrink: 0;
+            min-width: 64px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
         }
 
-        .payment-link:hover .arrow {
-            transform: translateX(4px);
-            color: rgba(255, 255, 255, 0.6);
+        .payment-link.is-copied .payment-action {
+            color: #0f4f22;
+            background: #7ef0a4;
+            border-color: #7ef0a4;
         }
 
         .footer {
-            margin-top: 32px;
-            padding-top: 24px;
+            margin-top: 28px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
+        }
+
+        .money-gif {
+            display: block;
+            width: 100%;
+            border-radius: 12px;
         }
 
         @media (max-width: 480px) {
             body {
-                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-top: max(20px, env(safe-area-inset-top));
+                padding-right: max(14px, env(safe-area-inset-right));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+                padding-left: max(14px, env(safe-area-inset-left));
+                overflow-x: hidden;
             }
 
             .card-wrapper {
-                min-height: auto;
-                align-items: flex-start;
+                width: min(100%, 420px);
+                max-width: 420px;
+                margin: 0 auto;
             }
 
             .card {
-                padding: 32px 20px;
-                border-radius: 0;
+                padding: 32px 22px;
+                border-radius: 20px;
             }
 
             h1 {
                 font-size: 24px;
-            }
-
-            .avatar-container {
-                width: 120px;
-                height: 120px;
             }
 
             .avatar {
@@ -207,67 +250,110 @@
     </style>
 </head>
 <body>
-    <div class="card-wrapper">
-        <div class="card">
-        <div class="avatar-container">
+    <main class="card-wrapper">
+        <section class="card" aria-label="Payment links for Josh Wilhelm">
             <img src="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=200&d=identicon" alt="Josh Wilhelm" class="avatar">
-                    </div>
-        <h1>Josh Wilhelm</h1>
-        <p class="subtitle">send me money</p>
+            <h1>Josh Wilhelm</h1>
+            <p class="subtitle">send me money</p>
 
-        <div class="payment-methods">
-            <a href="https://venmo.com/Joshua-Wilhelm" target="_blank" rel="noopener" class="payment-link venmo">
-                <div class="payment-icon">V</div>
-                <div class="payment-info">
-                    <div class="payment-name">Venmo</div>
-                    <div class="payment-handle">@Joshua-Wilhelm</div>
-                </div>
-                <span class="arrow">→</span>
-            </a>
+            <div class="payment-methods">
+                <a href="https://venmo.com/Joshua-Wilhelm" target="_blank" rel="noreferrer" class="payment-link venmo">
+                    <span class="payment-icon" aria-hidden="true">V</span>
+                    <span class="payment-info">
+                        <span class="payment-name">Venmo</span>
+                        <span class="payment-handle">@Joshua-Wilhelm</span>
+                    </span>
+                    <span class="payment-action" aria-hidden="true">Open</span>
+                </a>
 
-            <a href="https://cash.app/$joshwilhelm" target="_blank" rel="noopener" class="payment-link cashapp">
-                <div class="payment-icon">$</div>
-                <div class="payment-info">
-                    <div class="payment-name">Cash App</div>
-                    <div class="payment-handle">$joshwilhelm</div>
-                </div>
-                <span class="arrow">→</span>
-            </a>
+                <a href="https://cash.app/$joshwilhelm" target="_blank" rel="noreferrer" class="payment-link cashapp">
+                    <span class="payment-icon" aria-hidden="true">$</span>
+                    <span class="payment-info">
+                        <span class="payment-name">Cash App</span>
+                        <span class="payment-handle">$joshwilhelm</span>
+                    </span>
+                    <span class="payment-action" aria-hidden="true">Open</span>
+                </a>
 
-            <a href="https://www.paypal.com/paypalme/joshwilhelm" target="_blank" rel="noopener" class="payment-link paypal">
-                <div class="payment-icon">P</div>
-                <div class="payment-info">
-                    <div class="payment-name">PayPal</div>
-                    <div class="payment-handle">@joshwilhelm</div>
-                </div>
-                <span class="arrow">→</span>
-            </a>
+                <a href="https://www.paypal.com/paypalme/joshwilhelm" target="_blank" rel="noreferrer" class="payment-link paypal">
+                    <span class="payment-icon" aria-hidden="true">P</span>
+                    <span class="payment-info">
+                        <span class="payment-name">PayPal</span>
+                        <span class="payment-handle">@joshwilhelm</span>
+                    </span>
+                    <span class="payment-action" aria-hidden="true">Open</span>
+                </a>
 
-            <div class="payment-link zelle" onclick="copyToClipboard('wilhelm.josh@gmail.com', 'Zelle email')">
-                <div class="payment-icon">Z</div>
-                <div class="payment-info">
-                    <div class="payment-name">Zelle</div>
-                    <div class="payment-handle">wilhelm.josh@gmail.com</div>
-                </div>
-                <span class="arrow">📋</span>
+                <button class="payment-link zelle" type="button" data-copy="wilhelm.josh@gmail.com" data-label="Zelle email">
+                    <span class="payment-icon" aria-hidden="true">Z</span>
+                    <span class="payment-info">
+                        <span class="payment-name">Zelle</span>
+                        <span class="payment-handle">wilhelm.josh@gmail.com</span>
+                    </span>
+                    <span class="payment-action" data-copy-indicator>Copy</span>
+                </button>
             </div>
-            </div>
 
-            <div class="footer">
-                <img src="images/money please.gif" alt="Money Please" style="max-width: 100%; border-radius: 12px;">
-            </div>
-        </div>
-    </div>
+            <footer class="footer">
+                <img src="images/money please.gif" alt="Money Please" class="money-gif">
+            </footer>
+        </section>
+    </main>
 
     <script>
-        // Copy to clipboard function
-        function copyToClipboard(text, label) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert(label + ' copied to clipboard: ' + text);
-            }).catch(() => {
-                prompt('Copy this ' + label + ':', text);
-            });
+        function legacyCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.setAttribute("readonly", "");
+            textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            textArea.setSelectionRange(0, text.length);
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
         }
+
+        async function copyToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                }
+                legacyCopy(text);
+                return true;
+            } catch {
+                try {
+                    legacyCopy(text);
+                    return true;
+                } catch {
+                    // Intentionally silent per request.
+                    return false;
+                }
+            }
+        }
+
+        document.querySelectorAll("[data-copy]").forEach((el) => {
+            let resetTimer;
+            const indicator = el.querySelector("[data-copy-indicator]");
+
+            el.addEventListener("click", async () => {
+                const copied = await copyToClipboard(el.dataset.copy);
+                if (!copied || !indicator) {
+                    return;
+                }
+
+                el.classList.add("is-copied");
+                indicator.textContent = "Copied";
+                window.clearTimeout(resetTimer);
+                resetTimer = window.setTimeout(() => {
+                    el.classList.remove("is-copied");
+                    indicator.textContent = "Copy";
+                }, 1800);
+            });
+        });
     </script>
 </body>
 </html>
