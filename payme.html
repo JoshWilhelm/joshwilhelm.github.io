@@ -14,14 +14,37 @@
             box-sizing: border-box;
         }
 
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: -1;
+        }
+
+        .card-wrapper {
+            width: 100%;
+            max-width: 420px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            min-height: calc(100vh - 40px);
         }
 
         .card {
@@ -29,7 +52,6 @@
             backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 48px;
-            max-width: 420px;
             width: 100%;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -154,8 +176,18 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .card-wrapper {
+                min-height: auto;
+                align-items: flex-start;
+            }
+
             .card {
-                padding: 32px 24px;
+                padding: 32px 20px;
+                border-radius: 0;
             }
 
             h1 {
@@ -175,7 +207,8 @@
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="card-wrapper">
+        <div class="card">
         <div class="avatar-container">
             <img src="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=200&d=identicon" alt="Josh Wilhelm" class="avatar">
                     </div>
@@ -218,10 +251,11 @@
                 </div>
                 <span class="arrow">📋</span>
             </div>
-        </div>
+            </div>
 
-        <div class="footer">
-            <img src="images/money please.gif" alt="Money Please" style="max-width: 100%; border-radius: 12px;">
+            <div class="footer">
+                <img src="images/money please.gif" alt="Money Please" style="max-width: 100%; border-radius: 12px;">
+            </div>
         </div>
     </div>
 
