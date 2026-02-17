@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#1d3557">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1d3557">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d3557">
+    <meta name="theme-color" content="#292a2d">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#292a2d">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#292a2d">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=32" type="image/png">
     <title>Josh Wilhelm</title>
     <style>
         :root {
-            --page-gradient: linear-gradient(90deg, #24243e, #1d3557);
-            --page-base: #1d3557;
-            --text: #f1faee;
-            --teal: #00b3a4;
-            --blue: #a8dadc;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(168, 218, 220, 0.3);
+            --page-base: #292a2d;
+            --text: #a9a9b3;
+            --accent: #fe5186;
+            --glass-bg: rgba(59, 61, 66, 0.6);
+            --glass-border: rgba(74, 75, 80, 0.5);
         }
 
         * {
@@ -36,7 +34,6 @@
 
         html {
             background-color: var(--page-base);
-            background: var(--page-gradient);
         }
 
         body {
@@ -44,7 +41,7 @@
             isolation: isolate;
             color: var(--text);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--page-base);
+            background-color: #252627;
             min-height: 100vh;
             min-height: 100svh;
             min-height: 100dvh;
@@ -76,8 +73,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+            background: rgba(254, 81, 134, 0.15);
+            box-shadow: 0 0 14px rgba(254, 81, 134, 0.35);
             animation: float var(--dur, 22s) linear infinite;
             animation-delay: var(--delay, 0s);
         }
@@ -108,10 +105,15 @@
             width: 120px;
             height: 120px;
             margin-bottom: 1.5rem;
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            border: 4px solid rgba(254, 81, 134, 0.3);
             border-radius: 50%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 40px rgba(254, 81, 134, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(254, 81, 134, 0.5);
         }
 
         h1 {
@@ -216,9 +218,9 @@
         const fxLayer = document.getElementById("fx");
         const fragment = document.createDocumentFragment();
         const orbColors = [
-            "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), rgba(255,255,255,0.05) 65%, rgba(255,255,255,0))",
-            "radial-gradient(circle at 40% 30%, rgba(180,220,255,0.45), rgba(180,220,255,0.05) 62%, rgba(180,220,255,0))",
-            "radial-gradient(circle at 40% 40%, rgba(213,194,255,0.42), rgba(213,194,255,0.06) 63%, rgba(213,194,255,0))"
+            "radial-gradient(circle at 35% 35%, rgba(254,81,134,0.35), rgba(254,81,134,0.05) 65%, rgba(254,81,134,0))",
+            "radial-gradient(circle at 40% 30%, rgba(169,169,179,0.35), rgba(169,169,179,0.05) 62%, rgba(169,169,179,0))",
+            "radial-gradient(circle at 40% 40%, rgba(103,205,204,0.35), rgba(103,205,204,0.06) 63%, rgba(103,205,204,0))"
         ];
 
         for (let i = 0; i < 8; i += 1) {

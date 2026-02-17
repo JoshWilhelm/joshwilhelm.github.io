@@ -16,15 +16,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-base: #1d3557;
-            --bg-gradient: linear-gradient(90deg, #24243e, #1d3557);
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(168, 218, 220, 0.2);
-            --text: #f1faee;
-            --text-muted: rgba(241, 250, 238, 0.6);
-            --text-faint: rgba(241, 250, 238, 0.5);
-            --teal: #00b3a4;
-            --blue: #a8dadc;
+            --bg-base: #292a2d;
+            --card-bg: rgba(59, 61, 66, 0.6);
+            --card-border: rgba(74, 75, 80, 0.5);
+            --text: #a9a9b3;
+            --text-muted: rgba(169, 169, 179, 0.6);
+            --text-faint: rgba(169, 169, 179, 0.5);
+            --accent: #fe5186;
             --radius-lg: 24px;
             --radius-md: 16px;
         }
@@ -43,7 +41,6 @@
 
         html {
             background-color: var(--bg-base);
-            background-image: var(--bg-gradient);
         }
 
         body {
@@ -51,7 +48,7 @@
             isolation: isolate;
             font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text);
-            background-color: var(--bg-base);
+            background-color: #252627;
             min-height: 100vh;
             min-height: 100svh;
             min-height: 100dvh;
@@ -85,8 +82,8 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+            background: rgba(254, 81, 134, 0.15);
+            box-shadow: 0 0 14px rgba(254, 81, 134, 0.35);
             animation: float var(--dur, 22s) linear infinite;
             animation-delay: var(--delay, 0s);
         }
@@ -126,14 +123,14 @@
             height: 140px;
             margin-bottom: 24px;
             border-radius: 50%;
-            border: 4px solid rgba(168, 218, 220, 0.3);
-            box-shadow: 0 0 40px rgba(0, 179, 164, 0.3);
+            border: 4px solid rgba(254, 81, 134, 0.3);
+            box-shadow: 0 0 40px rgba(254, 81, 134, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .avatar:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(0, 179, 164, 0.5);
+            box-shadow: 0 0 60px rgba(254, 81, 134, 0.5);
         }
 
         h1 {
@@ -363,9 +360,9 @@
         const fxLayer = document.getElementById("fx");
         const fragment = document.createDocumentFragment();
         const orbColors = [
-            "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), rgba(255,255,255,0.05) 65%, rgba(255,255,255,0))",
-            "radial-gradient(circle at 40% 30%, rgba(180,220,255,0.45), rgba(180,220,255,0.05) 62%, rgba(180,220,255,0))",
-            "radial-gradient(circle at 40% 40%, rgba(213,194,255,0.42), rgba(213,194,255,0.06) 63%, rgba(213,194,255,0))"
+            "radial-gradient(circle at 35% 35%, rgba(254,81,134,0.35), rgba(254,81,134,0.05) 65%, rgba(254,81,134,0))",
+            "radial-gradient(circle at 40% 30%, rgba(169,169,179,0.35), rgba(169,169,179,0.05) 62%, rgba(169,169,179,0))",
+            "radial-gradient(circle at 40% 40%, rgba(103,205,204,0.35), rgba(103,205,204,0.06) 63%, rgba(103,205,204,0))"
         ];
 
         for (let i = 0; i < 8; i += 1) {

@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#1d3557">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1d3557">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d3557">
+    <meta name="theme-color" content="#292a2d">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="icon" href="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=32" type="image/png">
     <title>404 - Page Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --page-gradient: linear-gradient(90deg, #24243e, #1d3557);
-            --page-base: #1d3557;
-            --text: #f1faee;
-            --teal: #00b3a4;
-            --blue: #a8dadc;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(168, 218, 220, 0.3);
+            --bg-base: #292a2d;
+            --card-bg: rgba(59, 61, 66, 0.6);
+            --card-border: rgba(74, 75, 80, 0.5);
+            --text: #a9a9b3;
+            --accent: #fe5186;
+            --radius-lg: 24px;
+            --radius-md: 16px;
         }
 
         * {
@@ -30,24 +31,25 @@
         html, body {
             width: 100%;
             min-height: 100%;
-            overscroll-behavior: none;
         }
 
         html {
-            background-color: var(--page-base);
-            background: var(--page-gradient);
+            background-color: var(--bg-base);
         }
 
         body {
             position: relative;
             isolation: isolate;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: var(--page-base);
+            background-color: #252627;
             min-height: 100vh;
             min-height: 100svh;
             min-height: 100dvh;
             overflow-x: hidden;
+            display: grid;
+            place-items: center;
+            padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)) 20px;
         }
 
         .fx-layer {
@@ -74,128 +76,10 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+            background: rgba(254, 81, 134, 0.15);
+            box-shadow: 0 0 14px rgba(254, 81, 134, 0.35);
             animation: float var(--dur, 22s) linear infinite;
             animation-delay: var(--delay, 0s);
-        }
-
-        .page {
-            min-height: 100%;
-            min-height: 100svh;
-            min-height: 100dvh;
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: max(1.5rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom));
-        }
-
-        .container {
-            position: relative;
-            width: min(100%, 600px);
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 0.5rem;
-            font-size: 4rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .subtitle {
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-            font-size: 1.1rem;
-            font-weight: 300;
-        }
-
-        .game-container {
-            background: var(--glass-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            backdrop-filter: blur(10px);
-        }
-
-        .game-canvas {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            cursor: crosshair;
-            touch-action: none;
-        }
-
-        .game-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0 0.5rem;
-        }
-
-        .score, .high-score {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            border: 2px solid var(--glass-border);
-            border-radius: 50px;
-            background: var(--glass-bg);
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .game-over {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.85);
-            padding: 2rem;
-            border-radius: 16px;
-            text-align: center;
-            display: none;
-        }
-
-        .game-over.show {
-            display: block;
-        }
-
-        .game-over h2 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .game-over p {
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-        }
-
-        .back-link {
-            margin-top: 1.5rem;
         }
 
         @keyframes drift {
@@ -211,36 +95,195 @@
             80% { opacity: 0.4; }
             100% { transform: translateY(-135vh) rotate(360deg); opacity: 0; }
         }
+
+        .card-wrapper {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            width: 100%;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 40px 32px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent), #67cdcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            margin-bottom: 24px;
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        .game-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .game-canvas {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            touch-action: none;
+            display: block;
+        }
+
+        .game-ui {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px;
+            margin-bottom: 8px;
+        }
+
+        .score-display {
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        .score-display span {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .game-instructions {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .game-over-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-over-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-over-overlay h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .game-over-overlay .final-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff6b9d;
+            border-color: #ff6b9d;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 20px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .game-canvas {
+                height: 240px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="fx-layer" id="fx" aria-hidden="true"></div>
 
-    <main class="page">
-        <div class="container">
+    <main class="card-wrapper">
+        <section class="card">
             <h1>404</h1>
             <p class="subtitle">Page not found... but here's a game!</p>
-
-            <div class="game-container">
-                <div class="game-info">
-                    <span class="score">Score: <span id="score">0</span></span>
-                    <span class="high-score">High Score: <span id="highScore">0</span></span>
-                </div>
-                <canvas id="gameCanvas" class="game-canvas" width="400" height="300"></canvas>
-                <div class="game-over" id="gameOver">
+            
+            <div class="game-ui">
+                <span class="score-display">Score: <span id="score">0</span></span>
+                <span class="score-display">Best: <span id="highScore">0</span></span>
+            </div>
+            
+            <div class="game-wrapper">
+                <canvas id="gameCanvas" class="game-canvas"></canvas>
+                <div class="game-over-overlay" id="gameOver">
                     <h2>Game Over!</h2>
-                    <p>Final Score: <span id="finalScore">0</span></p>
-                    <button class="btn" onclick="startGame()">Play Again</button>
+                    <div class="final-score" id="finalScore">0</div>
+                    <button class="btn btn-primary" id="restartBtn">Play Again</button>
                 </div>
             </div>
-
-            <a href="/" class="btn back-link">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            
+            <p class="game-instructions">Click or tap to flap</p>
+            
+            <a href="/" class="btn">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 Back to Home
             </a>
-        </div>
+        </section>
     </main>
 
     <script>
@@ -248,9 +291,9 @@
         const fxLayer = document.getElementById("fx");
         const fragment = document.createDocumentFragment();
         const orbColors = [
-            "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), rgba(255,255,255,0.05) 65%, rgba(255,255,255,0))",
-            "radial-gradient(circle at 40% 30%, rgba(180,220,255,0.45), rgba(180,220,255,0.05) 62%, rgba(180,220,255,0))",
-            "radial-gradient(circle at 40% 40%, rgba(213,194,255,0.42), rgba(213,194,255,0.06) 63%, rgba(213,194,255,0))"
+            "radial-gradient(circle at 35% 35%, rgba(254,81,134,0.35), rgba(254,81,134,0.05) 65%, rgba(254,81,134,0))",
+            "radial-gradient(circle at 40% 30%, rgba(169,169,179,0.35), rgba(169,169,179,0.05) 62%, rgba(169,169,179,0))",
+            "radial-gradient(circle at 40% 40%, rgba(103,205,204,0.35), rgba(103,205,204,0.06) 63%, rgba(103,205,204,0))"
         ];
 
         for (let i = 0; i < 8; i++) {
@@ -282,174 +325,321 @@
 
         fxLayer.appendChild(fragment);
 
-        // Game logic
+        // Flappy Bird Game
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreEl = document.getElementById('score');
         const highScoreEl = document.getElementById('highScore');
         const gameOverEl = document.getElementById('gameOver');
         const finalScoreEl = document.getElementById('finalScore');
+        const restartBtn = document.getElementById('restartBtn');
 
+        let width, height, dpr;
         let score = 0;
-        let highScore = localStorage.getItem('404gameHighScore') || 0;
+        let highScore = parseInt(localStorage.getItem('flappyHighScore')) || 0;
         let gameRunning = false;
-        let stars = [];
-        let basket = { x: 175, width: 50, height: 15 };
+        let started = false;
         let animationId;
-        let lastStarTime = 0;
-        let starInterval = 1000;
 
         highScoreEl.textContent = highScore;
 
-        // Handle canvas scaling for retina displays
+        const bird = {
+            x: 0,
+            y: 0,
+            width: 28,
+            height: 22,
+            velocity: 0,
+            gravity: 0.18,
+            jump: -6,
+            rotation: 0
+        };
+
+        let pipes = [];
+        let pipeTimer = 0;
+        let gameStartTime = 0;
+        let gracePeriodEnded = false;
+        const pipeGap = 150;
+        const pipeWidth = 50;
+        const pipeSpeed = 2;
+
         function resizeCanvas() {
             const rect = canvas.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
+            dpr = window.devicePixelRatio || 1;
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
             ctx.scale(dpr, dpr);
-            basket.y = rect.height - 30;
+            width = rect.width;
+            height = rect.height;
+            bird.x = width * 0.25;
+            bird.y = height / 2;
         }
 
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Mouse/touch controls
-        function updateBasketPosition(clientX) {
-            const rect = canvas.getBoundingClientRect();
-            const x = clientX - rect.left;
-            basket.x = Math.max(0, Math.min(x - basket.width / 2, rect.width - basket.width));
+        function flap() {
+            if (!started) {
+                startGame();
+                return;
+            }
+            
+            // Don't allow flapping during grace period
+            const elapsed = performance.now() - gameStartTime;
+            if (elapsed < 800) return;
+            
+            bird.velocity = bird.jump;
         }
 
-        canvas.addEventListener('mousemove', (e) => {
-            if (gameRunning) updateBasketPosition(e.clientX);
-        });
-
-        canvas.addEventListener('touchmove', (e) => {
-            if (gameRunning) {
-                e.preventDefault();
-                updateBasketPosition(e.touches[0].clientX);
-            }
+        canvas.addEventListener('click', flap);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            flap();
         }, { passive: false });
 
-        class Star {
-            constructor() {
-                const rect = canvas.getBoundingClientRect();
-                this.x = Math.random() * (rect.width - 20) + 10;
-                this.y = -20;
-                this.size = 8 + Math.random() * 8;
-                this.speed = 2 + Math.random() * 2 + (score / 50);
-                this.rotation = Math.random() * Math.PI * 2;
-                this.rotationSpeed = (Math.random() - 0.5) * 0.1;
-                this.color = `hsl(${Math.random() * 60 + 40}, 100%, 70%)`;
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                flap();
+            }
+        });
+
+        restartBtn.addEventListener('click', () => {
+            startGame();
+        });
+
+        function createPipe() {
+            const minGapY = 50;
+            const maxGapY = height - pipeGap - 50;
+            const gapY = minGapY + Math.random() * (maxGapY - minGapY);
+            
+            pipes.push({
+                x: width,
+                gapY: gapY,
+                passed: false
+            });
+        }
+
+        function update() {
+            const elapsed = performance.now() - gameStartTime;
+            const gracePeriod = elapsed < 800;
+
+            // During grace period, bird stays in place with slight bob
+            if (gracePeriod) {
+                bird.y = height / 2 + Math.sin(elapsed * 0.01) * 5;
+                bird.rotation = 0;
+                return;
             }
 
-            update() {
-                this.y += this.speed;
-                this.rotation += this.rotationSpeed;
+            // First frame after grace period - give initial upward boost
+            if (!gracePeriodEnded) {
+                gracePeriodEnded = true;
+                bird.velocity = bird.jump;
+                bird.y = height / 2;
             }
 
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.rotation);
-                ctx.fillStyle = this.color;
-                ctx.shadowColor = this.color;
-                ctx.shadowBlur = 10;
+            // Bird physics
+            bird.velocity += bird.gravity;
+            bird.velocity = Math.min(bird.velocity, 8);
+            bird.y += bird.velocity;
+            
+            // Bird rotation based on velocity
+            bird.rotation = Math.min(Math.max(bird.velocity * 3, -25), 70);
 
-                // Draw star shape
-                ctx.beginPath();
-                for (let i = 0; i < 5; i++) {
-                    const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-                    const x = Math.cos(angle) * this.size;
-                    const y = Math.sin(angle) * this.size;
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+            // Bounds check
+            if (bird.y < 0 || bird.y + bird.height > height) {
+                endGame();
+                return;
+            }
+
+            // Pipe spawning
+            pipeTimer++;
+            if (pipeTimer > 140) {
+                createPipe();
+                pipeTimer = 0;
+            }
+
+            // Update pipes
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                const pipe = pipes[i];
+                pipe.x -= pipeSpeed;
+
+                // Collision check
+                const birdRight = bird.x + bird.width;
+                const birdBottom = bird.y + bird.height;
+                
+                if (birdRight > pipe.x && bird.x < pipe.x + pipeWidth) {
+                    if (bird.y < pipe.gapY || birdBottom > pipe.gapY + pipeGap) {
+                        endGame();
+                        return;
+                    }
                 }
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
+
+                // Score
+                if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+                    pipe.passed = true;
+                    score++;
+                    scoreEl.textContent = score;
+                }
+
+                // Remove off-screen pipes
+                if (pipe.x + pipeWidth < 0) {
+                    pipes.splice(i, 1);
+                }
             }
         }
 
-        function drawBasket() {
-            const rect = canvas.getBoundingClientRect();
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
-            ctx.shadowBlur = 10;
+        function drawBird() {
+            ctx.save();
+            ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
+            ctx.rotate(bird.rotation * Math.PI / 180);
+            
+            // Body
+            ctx.fillStyle = '#fe5186';
+            ctx.shadowColor = '#fe5186';
+            ctx.shadowBlur = 12;
             ctx.beginPath();
-            ctx.roundRect(basket.x, basket.y, basket.width, basket.height, 8);
+            ctx.ellipse(0, 0, bird.width / 2, bird.height / 2, 0, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Wing
+            ctx.fillStyle = '#ff6b9d';
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.ellipse(-4, 2, 8, 5, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Eye
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(6, -3, 5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#1a1a2e';
+            ctx.beginPath();
+            ctx.arc(7, -3, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Beak
+            ctx.fillStyle = '#f8c555';
+            ctx.beginPath();
+            ctx.moveTo(10, 0);
+            ctx.lineTo(16, 3);
+            ctx.lineTo(10, 6);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        function drawPipe(pipe) {
+            const gradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + pipeWidth, 0);
+            gradient.addColorStop(0, '#67cdcc');
+            gradient.addColorStop(1, '#4aa8a8');
+            
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = '#67cdcc';
+            ctx.shadowBlur = 8;
+            
+            // Top pipe
+            ctx.fillRect(pipe.x, 0, pipeWidth, pipe.gapY);
+            // Top pipe cap
+            ctx.fillRect(pipe.x - 4, pipe.gapY - 20, pipeWidth + 8, 20);
+            
+            // Bottom pipe
+            ctx.fillRect(pipe.x, pipe.gapY + pipeGap, pipeWidth, height - pipe.gapY - pipeGap);
+            // Bottom pipe cap
+            ctx.fillRect(pipe.x - 4, pipe.gapY + pipeGap, pipeWidth + 8, 20);
+            
             ctx.shadowBlur = 0;
         }
 
-        function checkCollision(star) {
-            const rect = canvas.getBoundingClientRect();
-            return (
-                star.y + star.size > basket.y &&
-                star.y - star.size < basket.y + basket.height &&
-                star.x > basket.x &&
-                star.x < basket.x + basket.width
-            );
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Background gradient
+            const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
+            bgGradient.addColorStop(0, '#1a1a2e');
+            bgGradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw stars
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            for (let i = 0; i < 20; i++) {
+                const x = (i * 47 + performance.now() * 0.01) % width;
+                const y = (i * 31) % height;
+                ctx.beginPath();
+                ctx.arc(x, y, 1, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Draw pipes
+            pipes.forEach(drawPipe);
+
+            // Draw bird
+            drawBird();
+
+            // Draw score on canvas
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.font = 'bold 24px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(score, width / 2, 40);
+
+            // Show countdown during grace period
+            if (started) {
+                const elapsed = performance.now() - gameStartTime;
+                if (elapsed < 800) {
+                    const countdown = Math.ceil((800 - elapsed) / 300);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                    ctx.font = 'bold 32px Inter, sans-serif';
+                    ctx.fillText(countdown, width / 2, height / 2);
+                }
+            }
+
+            // Start prompt
+            if (!started) {
+                ctx.fillStyle = 'rgba(169, 169, 179, 0.9)';
+                ctx.font = '500 14px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Click to play!', width / 2, height / 2 + 60);
+            }
         }
 
-        function gameLoop(timestamp) {
+        function gameLoop() {
             if (!gameRunning) return;
-
-            const rect = canvas.getBoundingClientRect();
-            ctx.clearRect(0, 0, rect.width, rect.height);
-
-            // Spawn new stars
-            if (timestamp - lastStarTime > starInterval) {
-                stars.push(new Star());
-                lastStarTime = timestamp;
-                // Increase difficulty
-                starInterval = Math.max(400, 1000 - score * 10);
+            
+            if (started) {
+                update();
             }
-
-            // Update and draw stars
-            for (let i = stars.length - 1; i >= 0; i--) {
-                const star = stars[i];
-                star.update();
-                star.draw();
-
-                // Check collision with basket
-                if (checkCollision(star)) {
-                    score += 10;
-                    scoreEl.textContent = score;
-                    stars.splice(i, 1);
-                    continue;
-                }
-
-                // Check if star hit bottom
-                if (star.y > rect.height + 20) {
-                    endGame();
-                    return;
-                }
-            }
-
-            drawBasket();
+            draw();
             animationId = requestAnimationFrame(gameLoop);
         }
 
         function startGame() {
             score = 0;
             scoreEl.textContent = score;
-            stars = [];
+            bird.y = height / 2;
+            bird.velocity = 0;
+            bird.rotation = 0;
+            pipes = [];
+            pipeTimer = 100;
+            gameStartTime = performance.now();
+            gracePeriodEnded = false;
             gameRunning = true;
+            started = true;
             gameOverEl.classList.remove('show');
-            lastStarTime = performance.now();
-            starInterval = 1000;
             animationId = requestAnimationFrame(gameLoop);
         }
 
         function endGame() {
             gameRunning = false;
+            started = false;
             cancelAnimationFrame(animationId);
             
             if (score > highScore) {
                 highScore = score;
-                localStorage.setItem('404gameHighScore', highScore);
+                localStorage.setItem('flappyHighScore', highScore);
                 highScoreEl.textContent = highScore;
             }
             
@@ -457,8 +647,13 @@
             gameOverEl.classList.add('show');
         }
 
-        // Start game on load
-        startGame();
+        // Initial draw
+        resizeCanvas();
+        draw();
+        
+        // Start idle animation
+        gameRunning = true;
+        animationId = requestAnimationFrame(gameLoop);
     </script>
 </body>
 </html>
