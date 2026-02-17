@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#1a1a2e">
+    <meta name="theme-color" content="#1d3557">
     <meta property="og:title" content="Pay Josh Wilhelm">
     <meta property="og:description" content="Send money to Josh Wilhelm via Venmo, Cash App, PayPal, or Zelle">
     <meta property="og:image" content="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=400&d=identicon">
     <meta property="og:url" content="https://joshwilhelm.com/payme.html">
     <meta property="og:type" content="website">
+    <link rel="icon" href="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=32" type="image/png">
     <title>Pay Josh Wilhelm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-base: #1a1a2e;
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --bg-base: #1d3557;
+            --bg-gradient: linear-gradient(90deg, #24243e, #1d3557);
             --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.6);
-            --text-faint: rgba(255, 255, 255, 0.5);
+            --card-border: rgba(168, 218, 220, 0.2);
+            --text: #f1faee;
+            --text-muted: rgba(241, 250, 238, 0.6);
+            --text-faint: rgba(241, 250, 238, 0.5);
+            --teal: #00b3a4;
+            --blue: #a8dadc;
             --radius-lg: 24px;
             --radius-md: 16px;
         }
@@ -41,16 +44,65 @@
         html {
             background-color: var(--bg-base);
             background-image: var(--bg-gradient);
-            background-attachment: fixed;
         }
 
         body {
+            position: relative;
+            isolation: isolate;
             font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             color: var(--text);
-            background: transparent;
+            background-color: var(--bg-base);
+            min-height: 100vh;
+            min-height: 100svh;
+            min-height: 100dvh;
+            overflow-x: hidden;
             display: grid;
             place-items: center;
             padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)) 20px;
+        }
+
+        .fx-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.35;
+            mix-blend-mode: screen;
+            animation: drift var(--dur, 20s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .spark {
+            position: absolute;
+            top: 105%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+            animation: float var(--dur, 22s) linear infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        @keyframes drift {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            33% { transform: translate3d(24px, -30px, 0) scale(1.06); }
+            66% { transform: translate3d(-20px, -65px, 0) scale(0.96); }
+            100% { transform: translate3d(0, -95px, 0) scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.55; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-135vh) rotate(360deg); opacity: 0; }
         }
 
         .card-wrapper {
@@ -74,14 +126,14 @@
             height: 140px;
             margin-bottom: 24px;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+            border: 4px solid rgba(168, 218, 220, 0.3);
+            box-shadow: 0 0 40px rgba(0, 179, 164, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .avatar:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 60px rgba(0, 179, 164, 0.5);
         }
 
         h1 {
@@ -255,7 +307,9 @@
     </style>
 </head>
 <body>
-    <main class="card-wrapper">
+    <div class="fx-layer" id="fx" aria-hidden="true"></div>
+
+    <main class="card-wrapper" style="position: relative; z-index: 1;">
         <section class="card" aria-label="Payment links for Josh Wilhelm">
             <img src="https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=200&d=identicon" alt="Josh Wilhelm" class="avatar">
             <h1>Josh Wilhelm</h1>
@@ -306,6 +360,43 @@
     </main>
 
     <script>
+        const fxLayer = document.getElementById("fx");
+        const fragment = document.createDocumentFragment();
+        const orbColors = [
+            "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), rgba(255,255,255,0.05) 65%, rgba(255,255,255,0))",
+            "radial-gradient(circle at 40% 30%, rgba(180,220,255,0.45), rgba(180,220,255,0.05) 62%, rgba(180,220,255,0))",
+            "radial-gradient(circle at 40% 40%, rgba(213,194,255,0.42), rgba(213,194,255,0.06) 63%, rgba(213,194,255,0))"
+        ];
+
+        for (let i = 0; i < 8; i += 1) {
+            const orb = document.createElement("div");
+            const size = 120 + Math.random() * 240;
+            orb.className = "orb";
+            orb.style.width = `${size}px`;
+            orb.style.height = `${size}px`;
+            orb.style.left = `${Math.random() * 100}%`;
+            orb.style.top = `${Math.random() * 100}%`;
+            orb.style.background = orbColors[i % orbColors.length];
+            orb.style.setProperty("--dur", `${18 + Math.random() * 20}s`);
+            orb.style.setProperty("--delay", `${Math.random() * 12}s`);
+            fragment.appendChild(orb);
+        }
+
+        for (let i = 0; i < 26; i += 1) {
+            const spark = document.createElement("div");
+            const size = 2 + Math.random() * 6;
+            spark.className = "spark";
+            spark.style.width = `${size}px`;
+            spark.style.height = `${size}px`;
+            spark.style.left = `${Math.random() * 100}%`;
+            spark.style.setProperty("--dur", `${14 + Math.random() * 22}s`);
+            spark.style.setProperty("--delay", `${Math.random() * 24}s`);
+            spark.style.opacity = `${0.15 + Math.random() * 0.35}`;
+            fragment.appendChild(spark);
+        }
+
+        fxLayer.appendChild(fragment);
+
         function legacyCopy(text) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
