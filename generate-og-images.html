@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #292a2d;
+            color: #a9a9b3;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #fe5186; }
+        .preview { margin: 20px 0; }
+        .preview h3 { margin-bottom: 10px; }
+        canvas { border-radius: 12px; max-width: 100%; height: auto; }
+        button {
+            background: #fe5186;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover { background: #ff6b9d; }
+        .section { margin: 40px 0; padding: 20px; background: rgba(59,61,66,0.6); border-radius: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Open Graph Image Generator</h1>
+    <p>Click the buttons below to download PNG images for each page.</p>
+    
+    <div class="section">
+        <h2>Index Page (Home)</h2>
+        <div class="preview">
+            <h3>Rectangle (1200x630) - Standard OG</h3>
+            <canvas id="indexRect" width="1200" height="630"></canvas>
+        </div>
+        <div class="preview">
+            <h3>Square (1200x1200)</h3>
+            <canvas id="indexSquare" width="1200" height="1200"></canvas>
+        </div>
+        <button onclick="download('indexRect', 'og-index.png')">Download Rectangle</button>
+        <button onclick="download('indexSquare', 'og-index-square.png')">Download Square</button>
+    </div>
+    
+    <div class="section">
+        <h2>PayMe Page</h2>
+        <div class="preview">
+            <h3>Rectangle (1200x630) - Standard OG</h3>
+            <canvas id="paymeRect" width="1200" height="630"></canvas>
+        </div>
+        <div class="preview">
+            <h3>Square (1200x1200)</h3>
+            <canvas id="paymeSquare" width="1200" height="1200"></canvas>
+        </div>
+        <button onclick="download('paymeRect', 'og-payme.png')">Download Rectangle</button>
+        <button onclick="download('paymeSquare', 'og-payme-square.png')">Download Square</button>
+    </div>
+    
+    <div class="section">
+        <h2>404 Page</h2>
+        <div class="preview">
+            <h3>Rectangle (1200x630) - Standard OG</h3>
+            <canvas id="404Rect" width="1200" height="630"></canvas>
+        </div>
+        <div class="preview">
+            <h3>Square (1200x1200)</h3>
+            <canvas id="404Square" width="1200" height="1200"></canvas>
+        </div>
+        <button onclick="download('404Rect', 'og-404.png')">Download Rectangle</button>
+        <button onclick="download('404Square', 'og-404-square.png')">Download Square</button>
+    </div>
+
+    <script>
+        const accent = '#fe5186';
+        const accent2 = '#67cdcc';
+        const text = '#a9a9b3';
+        const bg = '#252627';
+        const bg2 = '#292a2d';
+        
+        // Load avatar
+        const avatar = new Image();
+        avatar.crossOrigin = 'anonymous';
+        avatar.src = 'https://www.gravatar.com/avatar/e222a38f59325205eadc14072438f24c?s=400';
+        
+        function drawAvatar(ctx, x, y, radius) {
+            if (avatar.complete && avatar.naturalHeight !== 0) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(avatar, x - radius, y - radius, radius * 2, radius * 2);
+                ctx.restore();
+            }
+        }
+        
+        function drawBackground(ctx, w, h) {
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, bg);
+            grad.addColorStop(1, bg2);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+        }
+        
+        function drawOrb(ctx, x, y, r, color) {
+            ctx.save();
+            ctx.filter = 'blur(30px)';
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+        
+        function drawGradientText(ctx, text, x, y, fontSize) {
+            const grad = ctx.createLinearGradient(x - 200, y, x + 200, y);
+            grad.addColorStop(0, accent);
+            grad.addColorStop(1, accent2);
+            ctx.fillStyle = grad;
+            ctx.font = `700 ${fontSize}px system-ui, -apple-system, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, x, y);
+        }
+        
+        function drawIndex(ctx, w, h) {
+            drawBackground(ctx, w, h);
+            
+            // Orbs
+            drawOrb(ctx, w * 0.15, h * 0.2, h * 0.25, 'rgba(254,81,134,0.15)');
+            drawOrb(ctx, w * 0.85, h * 0.7, h * 0.3, 'rgba(103,205,204,0.12)');
+            drawOrb(ctx, w * 0.5, h * 0.5, h * 0.2, 'rgba(169,169,179,0.08)');
+            
+            const centerX = w / 2;
+            const centerY = h / 2;
+            const isSquare = w === h;
+            const scale = isSquare ? 1.4 : 1;
+            
+            // Avatar circle
+            ctx.save();
+            ctx.filter = 'blur(15px)';
+            ctx.fillStyle = 'rgba(254,81,134,0.4)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 100 * scale, 80 * scale, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.strokeStyle = 'rgba(254,81,134,0.5)';
+            ctx.lineWidth = 4 * scale;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - 100 * scale, 80 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            drawAvatar(ctx, centerX, centerY - 100 * scale, 76 * scale);
+            
+            // Name
+            drawGradientText(ctx, 'Josh Wilhelm', centerX, centerY + 50 * scale, 64 * scale);
+            
+            // Subtitle
+            ctx.fillStyle = 'rgba(169,169,179,0.7)';
+            ctx.font = `${28 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.fillText('Developer & Builder', centerX, centerY + 110 * scale);
+            
+            // URL
+            ctx.fillStyle = 'rgba(169,169,179,0.4)';
+            ctx.font = `${18 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.fillText('josh-wilhelm.com', centerX, h - 50 * scale);
+        }
+        
+        function drawPayme(ctx, w, h) {
+            drawBackground(ctx, w, h);
+            
+            // Orbs
+            drawOrb(ctx, w * 0.1, h * 0.15, h * 0.2, 'rgba(254,81,134,0.15)');
+            drawOrb(ctx, w * 0.9, h * 0.85, h * 0.25, 'rgba(103,205,204,0.12)');
+            
+            const isSquare = w === h;
+            const scale = isSquare ? 1.4 : 1;
+            const cardW = Math.min(600 * scale, w * 0.75);
+            const cardH = Math.min(450 * scale, h * 0.75);
+            const cardX = (w - cardW) / 2;
+            const cardY = (h - cardH) / 2;
+            
+            // Card
+            ctx.fillStyle = 'rgba(59,61,66,0.7)';
+            ctx.strokeStyle = 'rgba(74,75,80,0.5)';
+            ctx.lineWidth = 1;
+            roundRect(ctx, cardX, cardY, cardW, cardH, 24);
+            ctx.fill();
+            ctx.stroke();
+            
+            const centerX = w / 2;
+            const avatarY = cardY + 80 * scale;
+            
+            // Avatar
+            ctx.save();
+            ctx.filter = 'blur(12px)';
+            ctx.fillStyle = 'rgba(254,81,134,0.4)';
+            ctx.beginPath();
+            ctx.arc(centerX, avatarY, 55 * scale, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.strokeStyle = 'rgba(254,81,134,0.5)';
+            ctx.lineWidth = 4 * scale;
+            ctx.beginPath();
+            ctx.arc(centerX, avatarY, 55 * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            drawAvatar(ctx, centerX, avatarY, 52 * scale);
+            
+            // Name
+            ctx.fillStyle = text;
+            ctx.font = `700 ${32 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Josh Wilhelm', centerX, avatarY + 90 * scale);
+            
+            // Subtitle
+            ctx.fillStyle = 'rgba(169,169,179,0.6)';
+            ctx.font = `${18 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.fillText('send me money', centerX, avatarY + 130 * scale);
+            
+            // Payment buttons
+            const btnW = 100 * scale;
+            const btnH = 54 * scale;
+            const btnGap = 12 * scale;
+            const totalBtnW = btnW * 4 + btnGap * 3;
+            const btnStartX = centerX - totalBtnW / 2;
+            const btnY = avatarY + 180 * scale;
+            
+            const colors = ['#008cff', '#00d632', '#0070ba', '#6b1cd0'];
+            
+            colors.forEach((color, i) => {
+                const x = btnStartX + i * (btnW + btnGap);
+                ctx.fillStyle = 'rgba(255,255,255,0.08)';
+                roundRect(ctx, x, btnY, btnW, btnH, 12 * scale);
+                ctx.fill();
+                
+                ctx.fillStyle = color;
+                roundRect(ctx, x + 12 * scale, btnY + 12 * scale, 28 * scale, 28 * scale, 6 * scale);
+                ctx.fill();
+            });
+            
+            // URL
+            ctx.fillStyle = 'rgba(169,169,179,0.4)';
+            ctx.font = `${14 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('josh-wilhelm.com/payme', centerX, cardY + cardH - 25 * scale);
+        }
+        
+        function draw404(ctx, w, h) {
+            drawBackground(ctx, w, h);
+            
+            // Orbs
+            drawOrb(ctx, w * 0.2, h * 0.3, h * 0.25, 'rgba(254,81,134,0.15)');
+            drawOrb(ctx, w * 0.8, h * 0.7, h * 0.3, 'rgba(103,205,204,0.12)');
+            
+            const centerX = w / 2;
+            const centerY = h / 2;
+            const isSquare = w === h;
+            const scale = isSquare ? 1.4 : 1;
+            
+            // 404
+            drawGradientText(ctx, '404', centerX, centerY - 60 * scale, 120 * scale);
+            
+            // Subtitle
+            ctx.fillStyle = 'rgba(169,169,179,0.7)';
+            ctx.font = `${32 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Page Not Found', centerX, centerY + 40 * scale);
+            
+            // Bird icon
+            ctx.fillStyle = accent;
+            ctx.save();
+            ctx.filter = 'blur(8px)';
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 120 * scale, 35 * scale, 28 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.beginPath();
+            ctx.ellipse(centerX, centerY + 120 * scale, 35 * scale, 28 * scale, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Wing
+            ctx.fillStyle = '#ff6b9d';
+            ctx.beginPath();
+            ctx.ellipse(centerX - 7 * scale, centerY + 127 * scale, 14 * scale, 8 * scale, -0.3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Eye
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(centerX + 11 * scale, centerY + 113 * scale, 7 * scale, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#1a1a2e';
+            ctx.beginPath();
+            ctx.arc(centerX + 12 * scale, centerY + 113 * scale, 3.5 * scale, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Beak
+            ctx.fillStyle = '#f8c555';
+            ctx.beginPath();
+            ctx.moveTo(centerX + 25 * scale, centerY + 120 * scale);
+            ctx.lineTo(centerX + 40 * scale, centerY + 125 * scale);
+            ctx.lineTo(centerX + 25 * scale, centerY + 130 * scale);
+            ctx.closePath();
+            ctx.fill();
+            
+            // URL
+            ctx.fillStyle = 'rgba(169,169,179,0.4)';
+            ctx.font = `${18 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.fillText('josh-wilhelm.com', centerX, h - 50 * scale);
+        }
+        
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+        
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Generate all images after avatar loads
+        window.onload = () => {
+            avatar.onload = renderAll;
+            if (avatar.complete) renderAll();
+        };
+        
+        function renderAll() {
+            // Index
+            drawIndex(document.getElementById('indexRect').getContext('2d'), 1200, 630);
+            drawIndex(document.getElementById('indexSquare').getContext('2d'), 1200, 1200);
+            
+            // PayMe
+            drawPayme(document.getElementById('paymeRect').getContext('2d'), 1200, 630);
+            drawPayme(document.getElementById('paymeSquare').getContext('2d'), 1200, 1200);
+            
+            // 404
+            draw404(document.getElementById('404Rect').getContext('2d'), 1200, 630);
+            draw404(document.getElementById('404Square').getContext('2d'), 1200, 1200);
+        }
+    </script>
+</body>
+</html>
