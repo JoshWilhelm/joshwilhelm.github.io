@@ -617,6 +617,11 @@
         }
 
         function startGame() {
+            // Cancel any existing animation loop
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            
             score = 0;
             scoreEl.textContent = score;
             bird.y = height / 2;
