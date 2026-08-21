@@ -183,7 +183,9 @@
             list-style: none;
         }
 
-        .visited-list li {
+        .visited-list button {
+            appearance: none;
+            font: inherit;
             padding: 0.3rem 0.7rem;
             border-radius: 999px;
             border: 1px solid var(--card-border);
@@ -191,10 +193,13 @@
             color: var(--text);
             font-size: 0.8rem;
             cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
             transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
         }
 
-        .visited-list li.is-lit {
+        .visited-list button.is-lit {
             background: var(--accent);
             border-color: var(--accent);
             color: #fff;
