@@ -144,14 +144,15 @@
         hintEl.hidden = false;
     } else {
         hintEl.hidden = true;
-        const names = [...visited]
-            .map((code) => NAMES[code] || code.toUpperCase())
-            .sort((a, b) => a.localeCompare(b));
-        names.forEach((name) => {
-            const li = document.createElement("li");
-            li.textContent = name;
-            listEl.appendChild(li);
-        });
+        [...visited]
+            .map((code) => ({ code, name: NAMES[code] || code.toUpperCase() }))
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach(({ code, name }) => {
+                const li = document.createElement("li");
+                li.textContent = name;
+                li.dataset.code = code;
+                listEl.appendChild(li);
+            });
     }
 
     if (unmatched.length) {
@@ -203,26 +204,106 @@
             ocean.setAttribute("height", "1400");
             svg.insertBefore(ocean, defs.nextSibling);
 
+            const PIN = {
+                hk: [1662, 472],
+                va: [1054, 338],
+                ky: [545, 472],
+                tc: [612, 452]
+            };
+
+            const locator = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            locator.setAttribute("class", "locator");
+            const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            pulse.setAttribute("class", "locator-pulse");
+            pulse.setAttribute("r", "36");
+            pulse.setAttribute("cx", "0");
+            pulse.setAttribute("cy", "0");
+            const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            dot.setAttribute("class", "locator-dot");
+            dot.setAttribute("r", "14");
+            dot.setAttribute("cx", "0");
+            dot.setAttribute("cy", "0");
+            locator.appendChild(pulse);
+            locator.appendChild(dot);
+            svg.appendChild(locator);
+
+            function pointFor(code) {
+                if (PIN[code]) {
+                    return { x: PIN[code][0], y: PIN[code][1] };
+                }
+                const path = svg.querySelector(`path#${CSS.escape(code)}`);
+                if (!path) {
+                    return null;
+                }
+                const box = path.getBBox();
+                return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+            }
+
+            let pinned = null;
+
+            function showPin(code) {
+                listEl.querySelectorAll("[data-code]").forEach((chip) => {
+                    chip.classList.toggle("is-lit", chip.dataset.code === code);
+                });
+                const point = pointFor(code);
+                if (!point) {
+                    locator.classList.remove("is-on");
+                    return;
+                }
+                locator.setAttribute("transform", `translate(${point.x} ${point.y})`);
+                locator.classList.add("is-on");
+            }
+
+            function hidePin() {
+                if (pinned) {
+                    return;
+                }
+                listEl.querySelectorAll(".is-lit").forEach((chip) => {
+                    chip.classList.remove("is-lit");
+                });
+                locator.classList.remove("is-on");
+            }
+
+            function pin(code) {
+                pinned = code;
+                showPin(code);
+            }
+
+            function unpin() {
+                pinned = null;
+                hidePin();
+            }
+
             function bindRegion(el, code) {
                 const name = NAMES[code] || code.toUpperCase();
                 const isVisited = visited.has(code);
                 if (isVisited) {
                     el.classList.add("visited");
                 }
-                el.setAttribute("tabindex", "0");
+                el.setAttribute("tabindex", isVisited ? "0" : "-1");
                 el.setAttribute("role", "img");
                 el.setAttribute("aria-label", name + (isVisited ? ", visited" : ""));
-                el.addEventListener("pointerenter", (event) => showTooltip(name, event));
-                el.addEventListener("pointermove", moveTooltip);
-                el.addEventListener("pointerleave", hideTooltip);
-                el.addEventListener("focus", () => {
-                    tooltip.textContent = name;
-                    tooltip.hidden = false;
-                    const rect = el.getBoundingClientRect();
-                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
-                    tooltip.style.top = `${rect.top}px`;
+                el.addEventListener("pointerenter", (event) => {
+                    if (isVisited && !pinned) {
+                        showPin(code);
+                    }
+                    showTooltip(name, event);
                 });
-                el.addEventListener("blur", hideTooltip);
+                el.addEventListener("pointermove", moveTooltip);
+                el.addEventListener("pointerleave", () => {
+                    hidePin();
+                    hideTooltip();
+                });
+                if (isVisited) {
+                    el.addEventListener("click", (event) => {
+                        event.stopPropagation();
+                        if (pinned === code) {
+                            unpin();
+                        } else {
+                            pin(code);
+                        }
+                    });
+                }
             }
 
             svg.querySelectorAll("path[id]").forEach((path) => {
@@ -230,6 +311,27 @@
                 path.classList.add("country");
                 bindRegion(path, code);
             });
+
+            listEl.querySelectorAll("[data-code]").forEach((chip) => {
+                const code = chip.dataset.code;
+                chip.tabIndex = 0;
+                chip.addEventListener("pointerenter", () => {
+                    if (!pinned) {
+                        showPin(code);
+                    }
+                });
+                chip.addEventListener("pointerleave", hidePin);
+                chip.addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    if (pinned === code) {
+                        unpin();
+                    } else {
+                        pin(code);
+                    }
+                });
+            });
+
+            document.addEventListener("click", unpin);
         })
         .catch(() => {
             mount.textContent = "Couldn’t load the map.";
