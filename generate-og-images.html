@@ -229,72 +229,37 @@
             drawOrb(ctx, w * 0.1, h * 0.15, h * 0.2, 'rgba(254,81,134,0.15)');
             drawOrb(ctx, w * 0.9, h * 0.85, h * 0.25, 'rgba(103,205,204,0.12)');
 
+            const centerX = w / 2;
+            const centerY = h / 2;
             const isSquare = w === h;
             const scale = isSquare ? 1.4 : 1;
-            const cardW = Math.min(600 * scale, w * 0.75);
-            const cardH = Math.min(450 * scale, h * 0.75);
-            const cardX = (w - cardW) / 2;
-            const cardY = (h - cardH) / 2;
-
-            ctx.fillStyle = 'rgba(59,61,66,0.7)';
-            ctx.strokeStyle = 'rgba(74,75,80,0.5)';
-            ctx.lineWidth = 1;
-            roundRect(ctx, cardX, cardY, cardW, cardH, 24);
-            ctx.fill();
-            ctx.stroke();
-
-            const centerX = w / 2;
-            const avatarY = cardY + 80 * scale;
+            const avatarY = centerY - 50 * scale;
 
             ctx.save();
             ctx.filter = 'blur(12px)';
             ctx.fillStyle = 'rgba(254,81,134,0.4)';
             ctx.beginPath();
-            ctx.arc(centerX, avatarY, 55 * scale, 0, Math.PI * 2);
+            ctx.arc(centerX, avatarY, 80 * scale, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
 
             ctx.strokeStyle = 'rgba(254,81,134,0.5)';
             ctx.lineWidth = 4 * scale;
             ctx.beginPath();
-            ctx.arc(centerX, avatarY, 55 * scale, 0, Math.PI * 2);
+            ctx.arc(centerX, avatarY, 80 * scale, 0, Math.PI * 2);
             ctx.stroke();
 
-            drawAvatar(ctx, centerX, avatarY, 52 * scale);
+            drawAvatar(ctx, centerX, avatarY, 76 * scale);
 
             ctx.fillStyle = text;
-            ctx.font = `700 ${32 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.font = `700 ${48 * scale}px system-ui, -apple-system, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('Josh Wilhelm', centerX, avatarY + 90 * scale);
+            ctx.fillText('Josh Wilhelm', centerX, avatarY + 120 * scale);
 
             ctx.fillStyle = 'rgba(169,169,179,0.6)';
-            ctx.font = `${18 * scale}px system-ui, -apple-system, sans-serif`;
-            ctx.fillText('send me money', centerX, avatarY + 130 * scale);
-
-            const btnW = 100 * scale;
-            const btnH = 54 * scale;
-            const btnGap = 12 * scale;
-            const totalBtnW = btnW * 4 + btnGap * 3;
-            const btnStartX = centerX - totalBtnW / 2;
-            const btnY = avatarY + 180 * scale;
-            const colors = ['#008cff', '#00d632', '#0070ba', '#6b1cd0'];
-
-            colors.forEach((color, i) => {
-                const x = btnStartX + i * (btnW + btnGap);
-                ctx.fillStyle = 'rgba(255,255,255,0.08)';
-                roundRect(ctx, x, btnY, btnW, btnH, 12 * scale);
-                ctx.fill();
-
-                ctx.fillStyle = color;
-                roundRect(ctx, x + 12 * scale, btnY + 12 * scale, 28 * scale, 28 * scale, 6 * scale);
-                ctx.fill();
-            });
-
-            ctx.fillStyle = 'rgba(169,169,179,0.4)';
-            ctx.font = `${14 * scale}px system-ui, -apple-system, sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.fillText('josh-wilhelm.com/payme', centerX, cardY + cardH - 25 * scale);
+            ctx.font = `${24 * scale}px system-ui, -apple-system, sans-serif`;
+            ctx.fillText('send me money', centerX, avatarY + 168 * scale);
         }
 
         function draw404(ctx, w, h) {
