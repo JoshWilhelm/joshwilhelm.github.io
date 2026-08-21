@@ -149,11 +149,8 @@
             .sort((a, b) => a.name.localeCompare(b.name))
             .forEach(({ code, name }) => {
                 const li = document.createElement("li");
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.textContent = name;
-                btn.dataset.code = code;
-                li.appendChild(btn);
+                li.textContent = name;
+                li.dataset.code = code;
                 listEl.appendChild(li);
             });
     }
@@ -277,10 +274,6 @@
                 hidePin();
             }
 
-            function isTouch(event) {
-                return event.pointerType === "touch" || event.pointerType === "pen";
-            }
-
             function bindRegion(el, code) {
                 const name = NAMES[code] || code.toUpperCase();
                 const isVisited = visited.has(code);
@@ -291,32 +284,18 @@
                 el.setAttribute("role", "img");
                 el.setAttribute("aria-label", name + (isVisited ? ", visited" : ""));
                 el.addEventListener("pointerenter", (event) => {
-                    if (isTouch(event)) {
-                        return;
-                    }
                     if (isVisited && !pinned) {
                         showPin(code);
                     }
                     showTooltip(name, event);
                 });
-                el.addEventListener("pointermove", (event) => {
-                    if (!isTouch(event)) {
-                        moveTooltip(event);
-                    }
-                });
-                el.addEventListener("pointerleave", (event) => {
-                    if (isTouch(event)) {
-                        return;
-                    }
+                el.addEventListener("pointermove", moveTooltip);
+                el.addEventListener("pointerleave", () => {
                     hidePin();
                     hideTooltip();
                 });
                 if (isVisited) {
-                    el.addEventListener("pointerup", (event) => {
-                        if (!isTouch(event)) {
-                            return;
-                        }
-                        event.preventDefault();
+                    el.addEventListener("click", (event) => {
                         event.stopPropagation();
                         if (pinned === code) {
                             unpin();
@@ -335,23 +314,14 @@
 
             listEl.querySelectorAll("[data-code]").forEach((chip) => {
                 const code = chip.dataset.code;
-                chip.addEventListener("pointerenter", (event) => {
-                    if (isTouch(event) || pinned) {
-                        return;
+                chip.tabIndex = 0;
+                chip.addEventListener("pointerenter", () => {
+                    if (!pinned) {
+                        showPin(code);
                     }
-                    showPin(code);
                 });
-                chip.addEventListener("pointerleave", (event) => {
-                    if (isTouch(event)) {
-                        return;
-                    }
-                    hidePin();
-                });
-                chip.addEventListener("pointerup", (event) => {
-                    if (!isTouch(event)) {
-                        return;
-                    }
-                    event.preventDefault();
+                chip.addEventListener("pointerleave", hidePin);
+                chip.addEventListener("click", (event) => {
                     event.stopPropagation();
                     if (pinned === code) {
                         unpin();
@@ -361,12 +331,7 @@
                 });
             });
 
-            document.addEventListener("pointerdown", (event) => {
-                if (event.target.closest("[data-code], .country.visited")) {
-                    return;
-                }
-                unpin();
-            });
+            document.addEventListener("click", unpin);
         })
         .catch(() => {
             mount.textContent = "Couldn’t load the map.";
