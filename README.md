@@ -5,6 +5,7 @@ Personal GitHub Pages site for Joshua Wilhelm, served at [josh-wilhelm.com](http
 ## Contents
 
 - **index.html** — Home: profile, contact, lost & found, social links
+- **map.html** — Stylized world map of countries I've been to (`js/visited.js`)
 - **payme.html** — Payment links (Venmo, Cash App, PayPal, Zelle)
 - **lostandfound.html** — Contact page if someone finds something of mine
 - **404.html** — Custom not-found page with a small game
